@@ -8,8 +8,11 @@ import os
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-# Vercel provides this automatically
-ALLOWED_HOSTS = ['*']  # Vercel handles this securely
+# Vercel provides this automatically - allow all Vercel domains
+ALLOWED_HOSTS = ['.vercel.app', '.now.sh', 'localhost', '127.0.0.1']
+
+# You can also add specific domains:
+# ALLOWED_HOSTS = ['your-app.vercel.app', 'localhost']
 
 # Database - Vercel doesn't support SQLite in production, so we'll use Railway/Supabase
 # For now, keeping SQLite for simplicity, but you should use PostgreSQL for production
@@ -42,7 +45,13 @@ CORS_ALLOWED_ORIGINS = [
 CORS_ALLOW_ALL_ORIGINS = False
 
 # Static files configuration for Vercel
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles_build', 'static')
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+# Since we're using S3 for media, we don't need local static files in production
+# Vercel will handle static files automatically
+
+# Media files are already configured via S3 in base settings
 
 # Use environment variables
 SECRET_KEY = os.getenv('SECRET_KEY', 'your-production-secret-key-here')
